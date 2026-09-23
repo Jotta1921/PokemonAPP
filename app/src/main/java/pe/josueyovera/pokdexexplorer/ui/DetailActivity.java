@@ -473,8 +473,10 @@ public class DetailActivity extends AppCompatActivity {
     private void actualizarIconoFavorito() {
         if (isFavorite) {
             btnDetailFavorite.setImageResource(R.drawable.ic_favorite);
+            btnDetailFavorite.setImageTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#DC2626")));
         } else {
             btnDetailFavorite.setImageResource(R.drawable.ic_favorite_border);
+            btnDetailFavorite.setImageTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#0F172A")));
         }
     }
 

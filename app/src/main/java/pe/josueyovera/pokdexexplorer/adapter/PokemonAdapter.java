@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import pe.josueyovera.pokdexexplorer.R;
 import pe.josueyovera.pokdexexplorer.helper.PokemonTypeHelper;
@@ -26,6 +28,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     private List<PokemonItem> pokemonList;
     private List<PokemonItem> fullList;
+    private Set<Integer> favoriteIds;
     private OnPokemonClickListener clickListener;
 
     public interface OnPokemonClickListener {
@@ -36,7 +39,22 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
     public PokemonAdapter(List<PokemonItem> pokemonList, OnPokemonClickListener clickListener) {
         this.pokemonList = pokemonList != null ? pokemonList : new ArrayList<>();
         this.fullList = new ArrayList<>(this.pokemonList);
+        this.favoriteIds = new HashSet<>();
         this.clickListener = clickListener;
+    }
+
+    public void setFavoriteIds(Set<Integer> favoriteIds) {
+        this.favoriteIds = favoriteIds != null ? favoriteIds : new HashSet<>();
+        notifyDataSetChanged();
+    }
+
+    public void toggleFavoriteId(int id) {
+        if (favoriteIds.contains(id)) {
+            favoriteIds.remove(id);
+        } else {
+            favoriteIds.add(id);
+        }
+        notifyDataSetChanged();
     }
 
     public void setPokemonList(List<PokemonItem> newPokemonList) {
@@ -104,6 +122,16 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         // Configurar tipos reales desde PokemonTypeHelper
         configurarTipos(holder, pokemonId);
 
+        // Estado e icono de Favorito
+        boolean isFav = favoriteIds != null && favoriteIds.contains(pokemonId);
+        if (isFav) {
+            holder.btnFavorite.setImageResource(R.drawable.ic_favorite);
+            holder.btnFavorite.setImageTintList(ColorStateList.valueOf(Color.parseColor("#DC2626")));
+        } else {
+            holder.btnFavorite.setImageResource(R.drawable.ic_favorite_border);
+            holder.btnFavorite.setImageTintList(ColorStateList.valueOf(Color.parseColor("#64748B")));
+        }
+
         // Cargar imagen con Glide
         Glide.with(holder.itemView.getContext())
                 .load(pokemon.getImageUrl())
@@ -119,6 +147,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         });
 
         holder.btnFavorite.setOnClickListener(v -> {
+            toggleFavoriteId(pokemonId);
             if (clickListener != null) {
                 clickListener.onFavoriteClick(pokemon, holder.getAdapterPosition());
             }

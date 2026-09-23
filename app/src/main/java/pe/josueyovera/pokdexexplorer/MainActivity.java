@@ -24,7 +24,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executors;
 
 import pe.josueyovera.pokdexexplorer.adapter.PokemonAdapter;
@@ -191,13 +193,19 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
 
     private void actualizarContadorFavoritos() {
         Executors.newSingleThreadExecutor().execute(() -> {
-            int count = AppDatabase.getInstance(getApplicationContext())
-                    .pokemonFavoritoDao()
-                    .obtenerTodos().size();
+            AppDatabase db = AppDatabase.getInstance(getApplicationContext());
+            List<pe.josueyovera.pokdexexplorer.model.PokemonFavorito> favList = db.pokemonFavoritoDao().obtenerTodos();
+            Set<Integer> favSet = new HashSet<>();
+            for (pe.josueyovera.pokdexexplorer.model.PokemonFavorito fav : favList) {
+                favSet.add(fav.getId());
+            }
 
             runOnUiThread(() -> {
+                if (adapter != null) {
+                    adapter.setFavoriteIds(favSet);
+                }
                 if (tvNavFavoritesBadge != null) {
-                    tvNavFavoritesBadge.setText(String.valueOf(count));
+                    tvNavFavoritesBadge.setText(String.valueOf(favSet.size()));
                 }
             });
         });
@@ -215,6 +223,7 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
                         mostrarEstadoExito();
                         adapter = new PokemonAdapter(pokemonList, MainActivity.this);
                         recyclerPokemon.setAdapter(adapter);
+                        actualizarContadorFavoritos();
                     } else {
                         mostrarEstadoError("No se encontraron Pokémon disponibles.");
                     }
