@@ -154,20 +154,39 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
         if (chipFilterTodos == null) return;
 
         chipFilterTodos.setOnClickListener(v -> {
-            if (adapter != null) adapter.filter("");
+            seleccionarChipFiltro(chipFilterTodos);
+            if (adapter != null) adapter.filterByType("TODOS");
         });
         chipFilterFuego.setOnClickListener(v -> {
-            if (adapter != null) adapter.filter("char");
+            seleccionarChipFiltro(chipFilterFuego);
+            if (adapter != null) adapter.filterByType("FUEGO");
         });
         chipFilterAgua.setOnClickListener(v -> {
-            if (adapter != null) adapter.filter("squirt");
+            seleccionarChipFiltro(chipFilterAgua);
+            if (adapter != null) adapter.filterByType("AGUA");
         });
         chipFilterPlanta.setOnClickListener(v -> {
-            if (adapter != null) adapter.filter("bulb");
+            seleccionarChipFiltro(chipFilterPlanta);
+            if (adapter != null) adapter.filterByType("PLANTA");
         });
         chipFilterElectrico.setOnClickListener(v -> {
-            if (adapter != null) adapter.filter("pika");
+            seleccionarChipFiltro(chipFilterElectrico);
+            if (adapter != null) adapter.filterByType("ELÉCTRICO");
         });
+    }
+
+    private void seleccionarChipFiltro(TextView chipSeleccionado) {
+        TextView[] chips = {chipFilterTodos, chipFilterFuego, chipFilterAgua, chipFilterPlanta, chipFilterElectrico};
+        for (TextView chip : chips) {
+            if (chip == null) continue;
+            if (chip == chipSeleccionado) {
+                chip.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#DC2626")));
+                chip.setTextColor(android.graphics.Color.WHITE);
+            } else {
+                chip.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.WHITE));
+                chip.setTextColor(android.graphics.Color.parseColor("#475569"));
+            }
+        }
     }
 
     private void actualizarContadorFavoritos() {
