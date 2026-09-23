@@ -1,0 +1,37 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+
+    <!-- Mitad Superior (Roja) -->
+    <path
+        android:fillColor="#DC2626"
+        android:pathData="M 50,5 A 45,45 0 0,1 95,50 L 68,50 A 18,18 0 0,0 32,50 L 5,50 A 45,45 0 0,1 50,5 Z" />
+
+    <!-- Mitad Inferior (Blanca) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M 50,95 A 45,45 0 0,1 5,50 L 32,50 A 18,18 0 0,0 68,50 L 95,50 A 45,45 0 0,1 50,95 Z" />
+
+    <!-- Borde Negro Central -->
+    <path
+        android:fillColor="#1E293B"
+        android:pathData="M 5,47 L 32,47 A 18,18 0 0,1 68,47 L 95,47 L 95,53 L 68,53 A 18,18 0 0,1 32,53 L 5,53 Z" />
+
+    <!-- Círculo Exterior del Botón -->
+    <path
+        android:fillColor="#1E293B"
+        android:pathData="M 50,50 m -16,0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0" />
+
+    <!-- Círculo Interior del Botón (Blanco) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M 50,50 m -10,0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0" />
+
+    <!-- Núcleo Central (Azul) -->
+    <path
+        android:fillColor="#0284C7"
+        android:pathData="M 50,50 m -6,0 a 6,6 0 1,0 12,0 a 6,6 0 1,0 -12,0" />
+
+</vector>

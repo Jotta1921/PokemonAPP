@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="20dp"
+    android:layout_marginVertical="8dp"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="0dp"
+    app:strokeColor="#E2E8F0"
+    app:strokeWidth="1.5dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Fondo Circular Resplandeciente a la derecha detras de la imagen -->
+        <View
+            android:id="@+id/viewFavoriteGlow"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="-10dp"
+            android:background="@drawable/bg_status_badge"
+            android:backgroundTint="#FEF08A" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Columna de datos a la izquierda -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvFavPokemonId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#64748B"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    tools:text="#025" />
+
+                <TextView
+                    android:id="@+id/tvFavPokemonName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="#0F172A"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="Pikachu" />
+
+                <!-- Badge de Tipo -->
+                <TextView
+                    android:id="@+id/tvFavPokemonType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_chip"
+                    android:backgroundTint="#EAB308"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    tools:text="ELÉCTRICO" />
+
+                <!-- Sub-info de HP y Habilidad -->
+                <TextView
+                    android:id="@+id/tvFavPokemonSubInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#64748B"
+                    android:textSize="12sp"
+                    tools:text="⚡ 60 HP • Estática" />
+
+            </LinearLayout>
+
+            <!-- Imagen Protagonista a la derecha -->
+            <ImageView
+                android:id="@+id/ivFavPokemonImage"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:contentDescription="Imagen Favorito"
+                android:scaleType="fitCenter"
+                tools:src="@tools:sample/avatars" />
+
+        </LinearLayout>
+
+        <!-- Corazón Rojo en la esquina superior derecha -->
+        <ImageButton
+            android:id="@+id/btnFavItemHeart"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="end|top"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Favorito"
+            android:padding="6dp"
+            android:src="@drawable/ic_favorite"
+            app:tint="#DC2626" />
+
+    </FrameLayout>
+
+</com.google.android.material.card.MaterialCardView>
