@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Locale;
 
 import pe.josueyovera.pokdexexplorer.R;
+import pe.josueyovera.pokdexexplorer.helper.PokemonTypeHelper;
 import pe.josueyovera.pokdexexplorer.model.PokemonItem;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
@@ -60,6 +61,21 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         notifyDataSetChanged();
     }
 
+    public void filterByType(String typeName) {
+        if (typeName == null || typeName.trim().isEmpty() || "TODOS".equalsIgnoreCase(typeName.trim())) {
+            pokemonList = new ArrayList<>(fullList);
+        } else {
+            List<PokemonItem> filtered = new ArrayList<>();
+            for (PokemonItem item : fullList) {
+                if (PokemonTypeHelper.hasType(item.getId(), typeName)) {
+                    filtered.add(item);
+                }
+            }
+            pokemonList = filtered;
+        }
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public PokemonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -85,8 +101,8 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
             holder.tvPokemonName.setText("");
         }
 
-        // Configurar tipos según el Pokémon
-        configurarTipos(holder, name, pokemonId);
+        // Configurar tipos reales desde PokemonTypeHelper
+        configurarTipos(holder, pokemonId);
 
         // Cargar imagen con Glide
         Glide.with(holder.itemView.getContext())
@@ -109,53 +125,27 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         });
     }
 
-    private void configurarTipos(PokemonViewHolder holder, String name, int id) {
+    private void configurarTipos(PokemonViewHolder holder, int id) {
         if (holder.tvPokemonType1 == null) return;
 
-        String n = name != null ? name.toLowerCase() : "";
-        if (n.contains("bulbasaur") || n.contains("ivysaur") || n.contains("venusaur") || id == 1) {
-            holder.tvPokemonType1.setText("PLANTA");
-            holder.tvPokemonType1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#475569")));
-            holder.tvPokemonType1.setTextColor(Color.WHITE);
-            holder.tvPokemonType1.setVisibility(View.VISIBLE);
+        PokemonTypeHelper.TypeInfo info = PokemonTypeHelper.getTypeInfo(id);
 
-            holder.tvPokemonType2.setText("VENENO");
-            holder.tvPokemonType2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E8F0")));
-            holder.tvPokemonType2.setTextColor(Color.parseColor("#475569"));
-            holder.tvPokemonType2.setVisibility(View.VISIBLE);
-        } else if (n.contains("charmander") || n.contains("charmeleon") || n.contains("charizard") || id == 4) {
-            holder.tvPokemonType1.setText("FUEGO");
-            holder.tvPokemonType1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#DC2626")));
+        if (info.type1 != null) {
+            holder.tvPokemonType1.setText(info.type1);
+            String colorHex1 = PokemonTypeHelper.getTypeColor(info.type1);
+            holder.tvPokemonType1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorHex1)));
             holder.tvPokemonType1.setTextColor(Color.WHITE);
             holder.tvPokemonType1.setVisibility(View.VISIBLE);
-            holder.tvPokemonType2.setVisibility(View.GONE);
-        } else if (n.contains("squirtle") || n.contains("wartortle") || n.contains("blastoise") || id == 7) {
-            holder.tvPokemonType1.setText("AGUA");
-            holder.tvPokemonType1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#475569")));
-            holder.tvPokemonType1.setTextColor(Color.WHITE);
-            holder.tvPokemonType1.setVisibility(View.VISIBLE);
-            holder.tvPokemonType2.setVisibility(View.GONE);
-        } else if (n.contains("pikachu") || n.contains("raichu") || id == 25) {
-            holder.tvPokemonType1.setText("ELÉCTRICO");
-            holder.tvPokemonType1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#3B82F6")));
-            holder.tvPokemonType1.setTextColor(Color.WHITE);
-            holder.tvPokemonType1.setVisibility(View.VISIBLE);
-            holder.tvPokemonType2.setVisibility(View.GONE);
-        } else if (n.contains("gengar") || id == 94) {
-            holder.tvPokemonType1.setText("FANTASMA");
-            holder.tvPokemonType1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#475569")));
-            holder.tvPokemonType1.setTextColor(Color.WHITE);
-            holder.tvPokemonType1.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvPokemonType1.setVisibility(View.GONE);
+        }
 
-            holder.tvPokemonType2.setText("VENENO");
+        if (info.type2 != null) {
+            holder.tvPokemonType2.setText(info.type2);
             holder.tvPokemonType2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E8F0")));
             holder.tvPokemonType2.setTextColor(Color.parseColor("#475569"));
             holder.tvPokemonType2.setVisibility(View.VISIBLE);
         } else {
-            holder.tvPokemonType1.setText("NORMAL");
-            holder.tvPokemonType1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#475569")));
-            holder.tvPokemonType1.setTextColor(Color.WHITE);
-            holder.tvPokemonType1.setVisibility(View.VISIBLE);
             holder.tvPokemonType2.setVisibility(View.GONE);
         }
     }
